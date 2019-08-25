@@ -9,7 +9,7 @@ const validateLoginInput = require("../../validation/login");
 // Load User model
 const User = require("../../models/User");
 const Invitation = require("../../models/Invitations");
-const Post = require("../../models/Post");
+const Book = require("../../models/Book");
 
 const authentication = require("../../middlewears/auth");
 
@@ -71,8 +71,7 @@ router.post("/login", (req, res) => {
         jwt.sign(payload, keys.secretOrKey, { expiresIn: 31556926 },
           (err, token) => {
             res.json({
-              type: user.type,
-              username: user.username,
+              fullName: user.fullName,
               token: "Bearer " + token
             });
           }
@@ -97,28 +96,5 @@ router.get("/list", (req, res) => {
       res.send(userData);
     })
     .catch(err => console.log(err));
-});
-router.post("/invitation", authentication, (req, res) => {
-  let invitation = new Invitation(req.body);
-  invitation.save()
-    .then(data => res.json({ "msg": "Invitation Sent" }))
-    .catch(err => res.send(err));
-});
-router.get("/invitation", authentication, (req, res) => {
-  Invitation.find({ username: req.user.username })
-    .then(inv => {
-      if (inv) {
-        let postsList = [];
-        inv.forEach(x => {
-          Post.findById(x.post)
-            .then(function (post) {
-              postsList.push(post);
-              res.json(postsList);
-            });
-        });
-      }
-      else res.json(inv);
-    })
-    .catch(err => res.json(err));
 });
 module.exports = router;

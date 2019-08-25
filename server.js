@@ -2,10 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const addBook = require("./routes/api/addBook");
 const users = require("./routes/api/users");
-const posts = require("./routes/api/posts");
-const profile = require("./routes/api/profile");
-const proposal = require("./routes/api/proposal");
 
 const app = express();
 // Bodyparser 
@@ -38,8 +36,6 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 // Routes
 app.use("/api/users", users);
-app.use("/api/posts", posts);
-app.use("/api/proposal", proposal);
-app.use("/api/profile", profile);
+app.use("/api/add-book", addBook);
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server up and running on port ${port} !`));

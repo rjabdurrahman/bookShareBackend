@@ -1,10 +1,10 @@
 const app = require("express");
 const router = app.Router();
-const Post = require("../../models/Post");
+const Book = require("../../models/Book");
 const authentication = require("../../middlewears/auth");
 
 router.get("/", (req, res) => {
-    Post.find()
+    Book.find()
         .then(data => {
             res.send(data);
         })
@@ -13,13 +13,13 @@ router.get("/", (req, res) => {
 
 router.post("/", authentication, (req, res) => {
     console.log(req.user);
-    req.body.author = req.user.username;
-        var post = new Post(req.body);
-        post.save()
+    req.body.addedBy = req.user.email;
+        var book = new Book(req.body);
+        book.save()
         .then(data => {
-            console.log('Post Created')
+            console.log('Book Created')
             res.json({
-                message: 'Post Create Sucessfully!',
+                message: 'Book Create Sucessfully!',
             });
         })
         .catch(err => {
