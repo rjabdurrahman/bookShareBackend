@@ -14,9 +14,9 @@ app.use(
 );
 app.use(bodyParser.json());
 
-const db = 'mongodb://localhost:27017/bookshare';
+// const db = 'mongodb://localhost:27017/bookshare';
 
-// const db = require("./config/keys").mongoURI;
+const db = require("./config/keys").mongoURI;
 // MongoDB Connect
 mongoose
   .connect(
